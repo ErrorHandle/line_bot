@@ -10,20 +10,20 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
 
-app = Flask(__name__)
+line_bot = Flask(__name__)
 
 line_bot_api = LineBotApi('/ujfMwthKlVo/73tkxmuOGi4fMeKwyv6A90my42c0CFfSJeiaHfc+Ls2ga9RbG1F4o/7FQerlYWc8YrWPopJjzY7gUKB777v9Y7qI93j75Z9pPm2fQHcxrTFZWr1PUOEwqHdtMOzzGZMjDbogwW/6gdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('8be36aa787382fe5b87abd94affa7df7')
 
 
-@app.route("/callback", methods=['POST'])
+@line_bot.route("/callback", methods=['POST'])
 def callback():
     # get X-Line-Signature header value
     signature = request.headers['X-Line-Signature']
 
     # get request body as text
     body = request.get_data(as_text=True)
-    app.logger.info("Request body: " + body)
+    line_bot.logger.info("Request body: " + body)
 
     # handle webhook body
     try:
@@ -35,7 +35,7 @@ def callback():
     return 'OK'
 
 
-@handler.add(MessageEvent, message=TextMessage)
+@handler.line_bot(MessageEvent, message=TextMessage)
 def handle_message(event):
     line_bot_api.reply_message(
         event.reply_token,
@@ -43,4 +43,4 @@ def handle_message(event):
 
 
 if __name__ == "__main__":
-    app.run()
+    line_bot.run()
