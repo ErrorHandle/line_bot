@@ -37,11 +37,12 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+    user_id = 'U7f4c6c65684afac36a4ca83b691caf49'
     profile = line_bot_api.get_profile(user_id)
     name = profile.display_name
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text = 'hi' + name))
+        TextSendMessage(text= 'hi' + name))
 
 
 if __name__ == "__main__":
